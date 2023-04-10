@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Avatar, Typography, Box } from '@mui/material'
 import CountUp from "react-countup";
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function GameCard(props) {
   const [value, setValue] = useState(props.value)
@@ -35,13 +35,21 @@ function GameCard(props) {
           fontSize: 100,
           fontWeight: 900,
         }}>
-        {value === '?' ? value :
+
+        {value === '?' ?
           <motion.div
-            initial={{ x: 40, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-          >
-            <CountUp delay={0.4} duration={0.6} className="counter" end={value} />{value !== '?' ? 'm' : ''}
-          </motion.div>
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ repeat: Infinity, duration: 2 }}>
+            {value}
+          </motion.div> :
+          <AnimatePresence>
+            <motion.div
+              initial={{ x: 40, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+            >
+              <CountUp delay={0.4} duration={0.6} className="counter" end={value} />{value !== '?' ? 'm' : ''}
+            </motion.div>
+          </AnimatePresence>
         }
       </Typography>
     </Box>
