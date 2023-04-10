@@ -11,7 +11,8 @@ function Logo() {
         flexDirection: 'column',
         alignItems: 'center',
         userSelect: 'none',
-        marginTop: "-100px"
+        marginTop: "-100px",
+        mx: 2
       }}>
       <motion.img
         src={hlgLogo}
