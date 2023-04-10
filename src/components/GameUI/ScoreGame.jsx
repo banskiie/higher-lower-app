@@ -24,7 +24,7 @@ function ScoreGame(props) {
     <Box
       sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
     >
-      <Typography variant='p' sx={{ font: 'inherit', fontSize: 32, fontWeight: 800, marginY: 5 }}>Score: {score}</Typography>
+      <Typography variant='p' sx={{ font: 'inherit', fontSize: 32, fontWeight: 800, marginY: 5, userSelect: 'none' }}>Score: {score}</Typography>
       <Button
         variant='contained'
         onClick={props.item1 <= props.item2 ? addScore : gameOver}
