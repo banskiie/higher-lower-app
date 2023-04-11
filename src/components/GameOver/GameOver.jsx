@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AppContext } from '../../App'
 import { Box } from '@mui/material'
 import impressive from '../../assets/gif/impressive.gif'
 import { motion } from 'framer-motion'
@@ -7,7 +8,8 @@ import sad from '../../assets/gif/sad.gif'
 
 import GameOverBox from './GameOverBox'
 
-function GameOver(props) {
+function GameOver() {
+  const AppGrp = useContext(AppContext)
   return (
     <motion.div
       initial={{ y: "-100vh" }}
@@ -33,8 +35,8 @@ function GameOver(props) {
           }
         }}
       >
-        <img src={props.finalScore <= 2 ? sad : props.finalScore <= 8 ? ok : impressive} alt="img" />
-        <GameOverBox playingAgain={props.playAgain} finalScore={props.finalScore} />
+        <img src={AppGrp.finalScore <= 2 ? sad : AppGrp.finalScore <= 8 ? ok : impressive} alt="img" />
+        <GameOverBox />
       </Box>
     </motion.div>
   )

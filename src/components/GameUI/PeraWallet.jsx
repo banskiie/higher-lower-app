@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { Button } from '@mui/material'
-import AcUnitIcon from '@mui/icons-material/AcUnit'
 
 function PeraWallet() {
-  const [connected, setConnected] = useState(false);
+  const [connected, setConnected] = useState(false)
 
   const connectHandler = () => {
-    setConnected(isConnected => !isConnected);
-  };
+    setConnected(isConnected => !isConnected)
+  }
 
   return (
     <Button
@@ -22,6 +21,7 @@ function PeraWallet() {
         color: 'yellow',
         font: 'inherit',
         fontWeight: 400,
+        fill: 'yellow',
         ':hover': {
           bgcolor: 'yellow',
           color: '#252525',

@@ -1,20 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Button, Box, Typography } from '@mui/material'
-import { motion } from 'framer-motion'
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt'
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt'
+import { AppContext } from '../../App'
+import { GameContext } from '../Game/Game'
 
 function ScoreGame(props) {
+  const AppGrp = useContext(AppContext)
+  const GameGrp = useContext(GameContext)
   const [score, setScore] = useState(0)
 
-  const addScore = () => {
+  function addScore() {
     setTimeout(() => {
       setScore(prevScore => prevScore + 1)
     }, 2000)
-    props.detected()
+    GameGrp.newValues()
   }
 
-  const gameOver = () => {
-    props.getScore(score)
-    props.lost()
+  function gameOver() {
+    AppGrp.changeScore(score)
+    GameGrp.lost()
     setTimeout(() => {
       setScore(0)
     }, 2000)
@@ -26,6 +31,7 @@ function ScoreGame(props) {
     >
       <Typography variant='p' sx={{ font: 'inherit', fontSize: 32, fontWeight: 800, marginY: 5, userSelect: 'none' }}>Score: {score}</Typography>
       <Button
+        endIcon={<ThumbUpOffAltIcon />}
         variant='contained'
         onClick={props.item1 <= props.item2 ? addScore : gameOver}
         sx={{
@@ -45,6 +51,7 @@ function ScoreGame(props) {
           }
         }}>Higher</Button>
       <Button
+        endIcon={<ThumbDownOffAltIcon sx={{ marginLeft: 1 }} />}
         variant='contained'
         onClick={props.item1 >= props.item2 ? addScore : gameOver}
         sx={{

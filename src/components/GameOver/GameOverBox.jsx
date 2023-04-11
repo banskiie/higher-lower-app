@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Box, Typography, Button } from '@mui/material'
+import { AppContext } from '../../App'
 
 const PROMPTS = {
   sad: 'Hey atleast you tried!',
@@ -7,7 +8,8 @@ const PROMPTS = {
   impressive: 'You did a very good job!'
 }
 
-function GameOverBox(props) {
+function GameOverBox() {
+  const AppGrp = useContext(AppContext)
   return (
     <Box
       sx={{
@@ -29,13 +31,13 @@ function GameOverBox(props) {
           font: 'inherit',
           fontSize: 120,
           fontWeight: 800
-        }}>{props.finalScore}</Typography>
+        }}>{AppGrp.finalScore}</Typography>
       <Typography
         variant='p'
         sx={{ fontWeight: 300 }}
       >
-        {props.finalScore <= 2 ? PROMPTS.sad :
-          props.finalScore <= 8 ? PROMPTS.ok :
+        {AppGrp.finalScore <= 2 ? PROMPTS.sad :
+          AppGrp.finalScore <= 8 ? PROMPTS.ok :
             PROMPTS.impressive}
       </Typography>
       <Button
@@ -56,7 +58,7 @@ function GameOverBox(props) {
             color: '#252525'
           }
         }}
-        onClick={props.playingAgain}>Play again</Button>
+        onClick={AppGrp.playing}>Play again</Button>
     </Box>
   )
 }

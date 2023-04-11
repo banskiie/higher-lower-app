@@ -5,9 +5,6 @@ import PeraWallet from './PeraWallet'
 import ScoreGame from './ScoreGame'
 
 function GameUI(props) {
-  const getScoreHandler = score => {
-    props.getNewScore(score);
-  }
   return (
     <Box
       sx={{
@@ -19,7 +16,7 @@ function GameUI(props) {
     >
       <Logo />
       <PeraWallet />
-      <ScoreGame item1={props.item1} item2={props.item2} detected={props.changeItems} lost={props.lost} getScore={getScoreHandler} />
+      <ScoreGame item1={props.item1} item2={props.item2} />
     </Box>
   )
 }
