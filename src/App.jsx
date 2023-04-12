@@ -9,11 +9,11 @@ function App() {
   const [gameOver, setGameOver] = useState(false)
   const [finalScore, setFinalScore] = useState(0)
 
-  const playing = () => {
+  function playing() {
     setGameOver(isGameOver => !isGameOver)
   }
 
-  const changeScore = score => {
+  function changeScore(score) {
     setFinalScore(score)
   }
 

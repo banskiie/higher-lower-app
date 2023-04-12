@@ -15,7 +15,6 @@ function PeraWallet() {
       sx={{
         marginY: 2,
         backgroundColor: 'transparent',
-        color: '#252525',
         boxShadow: 0,
         border: 'solid 1px yellow',
         color: 'yellow',

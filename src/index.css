@@ -9,8 +9,11 @@
 }
 
 html {
-  background: #0a1929;
-  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(334deg, #001f62, #3d0092, #780038);
+  background-size: 180% 180%;
+  animation: gradient-animation 3s ease infinite;
   overflow: hidden;
 }
 
@@ -20,4 +23,18 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
