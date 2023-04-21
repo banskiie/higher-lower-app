@@ -1,105 +1,125 @@
-import React, { useState, createContext, useContext } from 'react'
-import { AppContext } from '../../App'
-import GameCard from '../GameCard/GameCard'
-import GameUI from '../GameUI/GameUI'
-import { Box } from '@mui/material'
-import gameData from '../../db/gameData.json'
-import { AnimatePresence, motion } from 'framer-motion'
+import React, { useState, createContext, useContext, useCallback } from "react";
+import { AppContext } from "../../App";
+import GameCard from "../GameCard/GameCard";
+import GameUI from "../GameUI/GameUI";
+import { Box } from "@mui/material";
+import gameData from "../../db/gameData.json";
+import { AnimatePresence, motion } from "framer-motion";
 
-export const GameContext = createContext()
+export const GameContext = createContext();
 
 function Game() {
-  const AppGrp = useContext(AppContext)
-  const dataLength = Object.keys(gameData.items).length
+  const AppGrp = useContext(AppContext);
+  const dataLength = Object.keys(gameData.items).length;
 
-  const [item1, setItem1] = useState(gameData.items[Math.trunc(Math.random() * dataLength)])
-  const [item2, setItem2] = useState(gameData.items[Math.trunc(Math.random() * dataLength)])
-  const [show, setShow] = useState(true)
-  const [revealValue, setRevealValue] = useState(false)
+  const [item1, setItem1] = useState(
+    gameData.items[Math.trunc(Math.random() * dataLength)]
+  );
+  const [item2, setItem2] = useState(
+    gameData.items[Math.trunc(Math.random() * dataLength)]
+  );
+  const [show, setShow] = useState(true);
+  const [revealValue, setRevealValue] = useState(false);
 
   const UIVariant = {
     hidden: { y: "-100vh" },
     visible: { y: 0, transition: { type: "spring", stiffness: 60 } },
-  }
+  };
 
   const cardVariant = {
     hidden: { opacity: 0, y: "-100vh" },
-    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 60, delay: 0.25 } },
-  }
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 60, delay: 0.25 },
+    },
+  };
 
-  function newValues() {
-    setRevealValue(prevState => !prevState)
+  const newValues = useCallback(() => {
+    setRevealValue((prevState) => !prevState);
     setTimeout(() => {
-      setItem1(item2)
-      setItem2(gameData.items[Math.floor(Math.random() * dataLength)])
-      setShow(prevState => !prevState)
-      setRevealValue(prevState => !prevState)
-      setTimeout(() => { setShow(prevState => !prevState) }, 300)
-    }, 2000)
-  }
+      setItem1(item2);
+      setItem2(gameData.items[Math.floor(Math.random() * dataLength)]);
+      setShow((prevState) => !prevState);
+      setRevealValue((prevState) => !prevState);
+      setTimeout(() => {
+        setShow((prevState) => !prevState);
+      }, 300);
+    }, 2000);
+  }, [revealValue]);
 
-  function lost() {
-    setRevealValue(prevState => !prevState)
+  const lost = useCallback(() => {
+    setRevealValue((prevState) => !prevState);
     setTimeout(() => {
-      AppGrp.playing()
-      setRevealValue(prevState => !prevState)
-    }, 2000)
-  }
+      AppGrp.playing();
+      setRevealValue((prevState) => !prevState);
+    }, 2000);
+  }, [revealValue]);
 
   const GameGrp = {
     newValues,
-    lost
-  }
+    lost,
+    revealValue,
+  };
 
   if (item1.id === item2.id) {
-    setItem1(item2)
-    setItem2(gameData.items[Math.floor(Math.random() * dataLength)])
+    setItem1(item2);
+    setItem2(gameData.items[Math.floor(Math.random() * dataLength)]);
   }
 
   return (
     <GameContext.Provider value={GameGrp}>
       <Box
         sx={{
-          width: '100vw',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center'
+          width: "100vw",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
         }}
       >
         <AnimatePresence>
-          {show ?
+          {show ? (
             <motion.div
               variants={cardVariant}
               initial="hidden"
               animate="visible"
               exit="hidden"
             >
-              <GameCard item={item1} image={item1.image} name={item1.name} handle={item1.handle} value={item1.value} />
+              <GameCard
+                item={item1}
+                image={item1.image}
+                name={item1.name}
+                handle={item1.handle}
+                value={item1.value}
+              />
             </motion.div>
-            : null}
+          ) : null}
         </AnimatePresence>
-        <motion.div
-          variants={UIVariant}
-          initial="hidden"
-          animate="visible"
-        >
+        <motion.div variants={UIVariant} initial="hidden" animate="visible">
           <GameUI item1={item1.value} item2={item2.value} />
         </motion.div>
         <AnimatePresence>
-          {show ?
+          {show ? (
             <motion.div
               variants={cardVariant}
               initial="hidden"
               animate="visible"
               exit="hidden"
             >
-              <GameCard item={item2} image={item2.image} name={item2.name} handle={item2.handle} value={'?'} reveal={revealValue} />
+              <GameCard
+                item={item2}
+                image={item2.image}
+                name={item2.name}
+                handle={item2.handle}
+                value={"?"}
+                reveal={revealValue}
+              />
             </motion.div>
-            : null}
+          ) : null}
         </AnimatePresence>
       </Box>
     </GameContext.Provider>
-  )
+  );
 }
 
-export default Game
+export default React.memo(Game);
